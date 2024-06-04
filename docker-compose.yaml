@@ -2,21 +2,20 @@ version: '3.8'
 
 services:
   mariadb:
+    platform: linux/amd64
     image: mariadb:latest
-    container_name: mysql_db_server
     environment:
       MYSQL_ROOT_PASSWORD: my-secret-pw
     volumes:
-      - ./data:/var/lib/mysql
-      - ./demo_schema_backup.sql:/docker-entrypoint-initdb.d/demo_schema_backup.sql
-      - ./users.sql:/docker-entrypoint-initdb.d/users.sql
+      - data:/var/lib/mysql
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     restart: always
 
   phpmyadmin:
+    platform: linux/amd64
     image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
     environment:
       PMA_HOST: mariadb
       PMA_PORT: 3306
